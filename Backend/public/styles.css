@@ -1,0 +1,226 @@
+*{
+    box-sizing: border-box;
+    margin: 0; 
+    padding: 0;
+} 
+
+body{
+    width: 100%;
+    height: 100vh;
+    background-color: hsla(240, 82%, 51%, 0.925); 
+    text-decoration: none;
+} 
+
+ a{  
+    text-decoration: none; 
+    color:  hsla(240, 82%, 51%, 0.925); 
+
+} 
+
+ 
+.contenedor{
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 90%; 
+    height: 80%;
+    margin: auto;
+} 
+
+label{
+    font-size: 14px;
+}
+
+form{ 
+    margin-top: 4rem;
+    display: flex;
+    width: 35%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    gap: .7rem;
+    align-items: center;
+    background-color: beige;
+    border-radius: 10px; 
+    padding: 3rem;
+}  
+
+
+
+#login{
+    gap: 3.5rem;
+    margin-bottom: 2rem;
+    display: none;
+}
+
+
+
+div{ 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    gap: .5rem; 
+    
+ 
+   
+}  
+input{ 
+    padding: .4rem 4.5rem; 
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+
+}
+
+.enviar{
+    background-color: black;
+    padding: .5rem 2rem;
+    color: aliceblue;
+    border: none;
+    border-radius: 10px;
+    margin-top: 1.5rem;
+}  
+
+ .btn-container{
+    font-size: 11px;
+    color: #000;
+    width: 60%;
+    display: flex;
+    justify-content:center;
+    flex-direction: row-reverse;
+    align-items: end;
+    gap: 2rem;
+    margin-left: 7rem;
+
+ 
+ } 
+
+ .btn-container p {
+    margin: 0; 
+     align-self: flex-end;
+     
+} 
+.form_contraseña{
+    gap: 2rem;
+}
+
+@media (max-width:1000px) { 
+    input{ 
+        padding: .4rem 3.5rem; 
+        
+
+    } 
+
+    form{
+        width: 50%;
+    }
+    
+} 
+
+@media (max-width:791px) { 
+
+    
+    form{
+        width: 60%;
+    }
+    input{ 
+        padding: .4rem 2rem; 
+
+    }
+    
+} 
+
+@media (max-width:530px) { 
+
+    
+    form{
+        width: 80%;
+    }
+    input{ 
+        padding: .4rem 2.5rem; 
+
+    }
+    
+} 
+
+
+@media (max-width:400px) { 
+
+    
+    form{
+        width: 90%;
+    }
+    input{ 
+        padding: .4rem 2.5rem; 
+
+    }
+    
+} 
+
+@media (max-width:350px) { 
+
+    
+    form{
+        width: 95%;
+    }
+    input{ 
+        padding: .3rem 1.5rem; 
+
+    }
+    
+} 
+
+@media (max-width:350px) { 
+
+    
+    form{
+        width: 95%;
+    }
+    input{ 
+        padding: .3rem 1.5rem; 
+
+    }
+    
+}
+
+
+@media (max-width:350px) { 
+
+    
+    form{
+        width: 95%;
+    }
+    input{ 
+        padding: .3rem 1.5rem; 
+
+    }
+    
+} 
+
+@media (max-width:292px) { 
+
+    
+    form{
+        width: 100%;
+    }
+    input{ 
+        padding: .3rem 1rem; 
+
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
