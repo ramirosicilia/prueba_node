@@ -62,7 +62,7 @@ console.log(99);
 const formularioIngreso = document.getElementById("formulario");
 const formularioLogin = document.getElementById("login");
 const formularioContraseñas = document.querySelector("#contraseñas-form"); 
-console.log(formularioContraseñas) 
+
 
 
 if(formularioLogin){
@@ -75,16 +75,19 @@ if(formularioLogin){
         let fechaNacimiento = document.querySelector(".fecha__nacimiento").value;
         let emailEmpleado = document.querySelector(".email__empleado").value;
         let usuarioEmpleado = document.querySelector(".usuario__empleado").value;
-        let usuarioContraseña = document.querySelector(".usuario__contraseña").value;
+        let usuarioContraseña = document.querySelector(".usuario__contraseña").value; 
+
+        console.log(usuarioEmpleado) 
+        
       
         let nombreValidado = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s\-]+$/;
         let apellidoValidado = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s\-]+$/;
-        let fechaValidada =
-          /^(19[0-9]{2}|200[0-9])-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+        let fechaValidada =  /^(19[0-9]{2}|200[0-9])-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+        
         let emailValidar = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         let usuariolValidar = /^[a-zA-Z0-9_-]{3,16}$/;
-        let validarContraseña =
-          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
+        let validarContraseña =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
+  
       
         if (
           !nombreValidado.test(inputNombre) ||
@@ -126,9 +129,10 @@ if(formularioLogin){
       
         e.target.reset();
       
-        formularioIngreso.style.display = "none";
-        formularioLogin.style.display = "flex";
-      });
+         window.location.href="./login.html"
+      }); 
+
+
       
       formularioLogin.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -204,16 +208,20 @@ if(formularioContraseñas){
         const ingresoUsuario = document.getElementById("ingreso-usuario").value; 
         console.log(contraseña1,contraseña2,ingresoUsuario)
       
-        const contraseña1Validara =
-          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
-        const contraseña2validara =
-          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
+        const contraseña1Validara =  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
+        
+        const contraseña2validara =   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
+       
         const usuarioValidadoIngresado = /^[a-zA-Z0-9_-]{3,16}$/;
       
-       
+       if(!usuarioValidadoIngresado.test(ingresoUsuario) || !contraseña1Validara.test(contraseña1) || !contraseña2validara.test(contraseña2)){
+               alert('ingrese datos validos') 
+               return
+       }
+
       
         try {
-          const response = await fetch("http://localhost:7000/validar-contraseña", {
+          const response = await fetch("http://localhost:7000/validar-contrasena", {
             method: "PUT",
             headers:{
               "content-type":"application/json",
@@ -228,7 +236,9 @@ if(formularioContraseñas){
           if (!data.ok) {
             alert(data.err);
           } else {
-            window.location.href = "http://localhost:7000";
+            window.location.href = "http://localhost:7000"; 
+            formularioIngreso.style.display='none'
+            formularioLogin.style.display='flex'
           }
         } catch (err) {
           console.log("erro al obtener los datos");

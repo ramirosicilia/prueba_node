@@ -90,7 +90,7 @@ app.post('/formulario',async(req,res)=>{
 
 
 
-     const [row] = await pool.query("INSERT INTO empleados (nombre,apellido,fecha_nacimiento,email,usuarios,contraseñas) VALUES(?,?,?,?,?,?)",[nombre,apellido,fecha,email,usuarios,pass]) 
+     const [row] = await pool.query("INSERT INTO empleados (nombre,apellido,fecha_nacimiento,email,usuarios,contrasenas) VALUES(?,?,?,?,?,?)",[nombre,apellido,fecha,email,usuarios,pass]) 
       console.log(row)
    
 
@@ -117,7 +117,7 @@ app.post("/login",async(req,res)=>{
 
     try{ 
 
-        const [obtenerPass]= await pool.query("SELECT id, contraseñas FROM empleados WHERE usuarios=?",[userInto]) 
+        const [obtenerPass]= await pool.query("SELECT id, contrasenas FROM empleados WHERE usuarios=?",[userInto]) 
             
            if(obtenerPass.length===0){ 
             return res.json({err:"usuario no encontrado"})
@@ -127,7 +127,7 @@ app.post("/login",async(req,res)=>{
            const passOne=obtenerPass[0] 
            console.log(passOne)
 
-       const verificarPass= await bcrypt.compare(passwordInto,passOne.contraseñas) 
+       const verificarPass= await bcrypt.compare(passwordInto,passOne.contrasenas) 
 
        console.log(verificarPass) 
 
@@ -162,7 +162,7 @@ app.post("/login",async(req,res)=>{
 })  
 
 
-app.put("/validar-contraseña", async (req, res) => {
+app.put("/validar-contrasena", async (req, res) => {
     const { contraseña1, contraseña2, ingresoUsuario } = req.body;
 
     console.log(contraseña1);
@@ -171,9 +171,9 @@ app.put("/validar-contraseña", async (req, res) => {
         return res.json({ err: 'contraseñas no coinciden' });
     }
 
-    const contraseñaHaseada = await bcrypt.hash(contraseña1);
+    const contraseñaHaseada = await bcrypt.hash(contraseña1,10);
 
-    await pool.query("UPDATE empleados SET contraseñas=? WHERE usuarios=?", [contraseñaHaseada, ingresoUsuario]);
+    await pool.query("UPDATE empleados SET contrasenas=? WHERE usuarios=?", [contraseñaHaseada, ingresoUsuario]);
 
     res.status(200).json({ ok: true});
 });
