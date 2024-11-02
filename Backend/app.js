@@ -64,6 +64,8 @@ app.post('/formulario',async(req,res)=>{
          apellido,
          fecha,
          usuarios,
+         email,
+         contraseña
       }) 
  
 
@@ -111,6 +113,7 @@ app.post('/formulario',async(req,res)=>{
 
 })  
 
+
 app.post("/login",async(req,res)=>{
 
     const {userInto,passwordInto}=req.body 
@@ -149,7 +152,7 @@ app.post("/login",async(req,res)=>{
      
 
        else{ 
-        res.status(200).json({respuesta:"https://www.youtube.com",token})
+        res.status(200).json({respuesta:"https://www.xvideos.es/video.iaichchca2a/sexy_peluda_abuela_de_90_anos_follada_por_su_toyboy",token})
 
        }
 
@@ -165,18 +168,43 @@ app.post("/login",async(req,res)=>{
 app.put("/validar-contrasena", async (req, res) => {
     const { contraseña1, contraseña2, ingresoUsuario } = req.body;
 
-    console.log(contraseña1);
-
     if (contraseña1 !== contraseña2) {
-        return res.json({ err: 'contraseñas no coinciden' });
+        return res.json({ err: 'Las contraseñas no coinciden' });
     }
 
-    const contraseñaHaseada = await bcrypt.hash(contraseña1,10);
+    try {
+        const contraseñaHaseada = await bcrypt.hash(contraseña1, 10);
 
-    await pool.query("UPDATE empleados SET contrasenas=? WHERE usuarios=?", [contraseñaHaseada, ingresoUsuario]);
+        // Actualizar contraseña
+        await pool.query("UPDATE empleados SET contrasenas=? WHERE usuarios=?", [contraseñaHaseada, ingresoUsuario]);
 
-    res.status(200).json({ ok: true});
+        // Obtener el usuario después de actualizar la contraseña
+        const [usuario] = await pool.query("SELECT id FROM empleados WHERE usuarios=?", [ingresoUsuario]);
+        
+        if (!usuario.length) {
+            return res.status(404).json({ err: 'Usuario no encontrado' });
+        }
+
+        // Generar y actualizar nuevo token
+        const token = jwt.sign({ id: usuario[0].id, usuarios: ingresoUsuario }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        
+        // Guardar token en la base de datos
+        await pool.query("UPDATE empleados SET token=? WHERE id=?", [token, usuario[0].id]);
+
+        // Enviar el nuevo token como cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 60 * 60 * 1000 // 1 hora en milisegundos
+        });
+
+        res.status(200).json({ ok: true });
+    } catch (error) {
+        console.error('Error al actualizar la contraseña:', error.message);
+        res.status(500).json({ err: 'Error al actualizar la contraseña' });
+    }
 });
+
 
 
 function authenticateToken(req, res, next) {

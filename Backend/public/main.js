@@ -63,127 +63,135 @@ const formularioIngreso = document.getElementById("formulario");
 const formularioLogin = document.getElementById("login");
 const formularioContraseñas = document.querySelector("#contraseñas-form"); 
 
+let usuarioEmpleado = document.querySelector(".usuario__empleados") 
 
 
-if(formularioLogin){
-    formularioIngreso.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      
-        let inputNombre = document.querySelector(".nombre").value;
-        let inputApellido = document.querySelector(".apellido").value;
-        let fechaNacimiento = document.querySelector(".fecha__nacimiento").value;
-        let emailEmpleado = document.querySelector(".email__empleado").value;
-        let usuarioEmpleado = document.querySelector(".usuario__empleado").value;
-        let usuarioContraseña = document.querySelector(".usuario__contraseña").value; 
+ if(formularioIngreso){
+  formularioIngreso.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-        console.log(usuarioEmpleado) 
-        
-      
-        let nombreValidado = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s\-]+$/;
-        let apellidoValidado = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s\-]+$/;
-        let fechaValidada =  /^(19[0-9]{2}|200[0-9])-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
-        
-        let emailValidar = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        let usuariolValidar = /^[a-zA-Z0-9_-]{3,16}$/;
-        let validarContraseña =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
+     console.log(formularioLogin) 
+
+    let inputNombre = document.querySelector(".nombre").value;
+    let inputApellido = document.querySelector(".apellido").value;
+    let fechaNacimiento = document.querySelector(".fecha__nacimiento").value;
+    let emailEmpleado = document.querySelector(".email__empleado").value;
+    let usuarioEmpleado = document.querySelector(".usuario__empleados").value; 
+
+    let usuarioContraseña = document.querySelector(".usuario__contraseña").value; 
+
+    console.log(usuarioEmpleado) 
+    
   
-      
-        if (
-          !nombreValidado.test(inputNombre) ||
-          !apellidoValidado.test(inputApellido) ||
-          !fechaValidada.test(fechaNacimiento) ||
-          !emailValidar.test(emailEmpleado) ||
-          !validarContraseña.test(usuarioContraseña) ||
-          !usuariolValidar.test(usuarioEmpleado)
-        ) {
-          alert("por favor completa los campos correctamente");
-          return;
-        }
-      
-        try {
-          const response = await fetch("http://localhost:7000/formulario", {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify({
-              nombre: inputNombre,
-              apellido: inputApellido,
-              fecha: fechaNacimiento,
-              email: emailEmpleado,
-              usuarios: usuarioEmpleado,
-              contraseña: usuarioContraseña,
-            }),
-          });
-          let data = await response.json();
-      
-          if (data.err) {
-            alert("usuario o email ya existen");
-          } else {
-            alert(`Bienvenido ${data[0].nombre}`);
-          }
-        } catch (err) {
-          console.log("error al enviar los datos");
-        }
-      
-        e.target.reset();
-      
-         window.location.href="./login.html"
-      }); 
+    let nombreValidado = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s\-]+$/;
+    let apellidoValidado = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s\-]+$/;
+    let fechaValidada =  /^(19[0-9]{2}|200[0-9])-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+    
+    let emailValidar = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    let usuariolValidar = /^[a-zA-Z0-9_-]{3,16}$/;
+    let validarContraseña =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
+
+  
+    if (
+      !nombreValidado.test(inputNombre) ||
+      !apellidoValidado.test(inputApellido) ||
+      !fechaValidada.test(fechaNacimiento) ||
+      !emailValidar.test(emailEmpleado) ||
+      !validarContraseña.test(usuarioContraseña) ||
+      !usuariolValidar.test(usuarioEmpleado)
+    ) {
+      alert("por favor completa los campos correctamente");
+      return;
+    }
+  
+    try {
+      const response = await fetch("http://localhost:7000/formulario", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: inputNombre,
+          apellido: inputApellido,
+          fecha: fechaNacimiento,
+          email: emailEmpleado,
+          usuarios:usuarioEmpleado,
+          contraseña: usuarioContraseña,
+        }),
+      });
+      let data = await response.json();
+  
+      if (data.err) {
+        alert("usuario o email ya existen");
+      } else {
+        alert(`Bienvenido ${data[0].nombre}`);
+      }
+    } catch (err) {
+      console.log("error al enviar los datos");
+    }
+  
+    e.target.reset();
+  
+     window.location.href="./login.html"
+  }); 
 
 
+ }
+    
+      if(formularioLogin){ 
+        formularioLogin.addEventListener("submit", async (e) => {
+          e.preventDefault();
       
-      formularioLogin.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      
-        const usuarioIngresado = document.getElementById("usuario-ingresado").value;
-      
-        const passWordIngresado = document.getElementById("usuario-password").value;
-      
-        const usuarioIngresadoValidado = /^[a-zA-Z0-9_-]{3,16}$/;
-        const usuarioIngresadoPassword =
-          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
-      
-        if (
-          !usuarioIngresadoValidado.test(usuarioIngresado) ||
-          !usuarioIngresadoPassword.test(passWordIngresado)
-        ) {
-          alert("ingrese su usuario o contraseña");
-        }
-      
-        try {
-          const peticion = await fetch("http://localhost:7000/login", {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-      
-            body: JSON.stringify({
-              userInto: usuarioIngresado,
-              passwordInto: passWordIngresado,
-            }),
-          });
-          console.log(peticion);
-      
-          let datos = await peticion.json();
-          console.log(datos);
-      
-          if (!peticion.ok) {
-            alert("error al ingresar la contraseña");
-          } else {
-            window.open(datos.respuesta, "_blank");
+        
+          const usuarioIngresado = document.getElementById("usuario-ingresado").value;
+        
+          const passWordIngresado = document.getElementById("usuario-password").value;
+        
+          const usuarioIngresadoValidado = /^[a-zA-Z0-9_-]{3,16}$/;
+          const usuarioIngresadoPassword =
+            /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_ -])[A-Za-z\d@$!%*?&_ -]{8,15}$/;
+        
+          if (
+            !usuarioIngresadoValidado.test(usuarioIngresado) ||
+            !usuarioIngresadoPassword.test(passWordIngresado)
+          ) {
+            alert("ingrese su usuario o contraseña");
           }
-        } catch (err) {
-          console.log("error al ingresar los datos");
-        }
-      
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }); 
-}
+        
+          try {
+            const peticion = await fetch("http://localhost:7000/login", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+        
+              body: JSON.stringify({
+                userInto: usuarioIngresado,
+                passwordInto: passWordIngresado,
+              }),
+            });
+            console.log(peticion);
+        
+            let datos = await peticion.json();
+            console.log(datos);
+        
+            if (!peticion.ok) {
+              alert("error al ingresar la contraseña");
+            } else {
+              window.open(datos.respuesta, "_blank");
+            }
+          } catch (err) {
+            console.log("error al ingresar los datos");
+          }
+        
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }); 
+        
+      }
+    
+
 
 
 fetch("http://localhost:7000/ruta-protegida", {
@@ -194,10 +202,11 @@ fetch("http://localhost:7000/ruta-protegida", {
   .then((data) => console.log(data))
   .catch((err) => console.log("Error en la ruta protegida", err));
 
-if(formularioContraseñas){ 
-    formularioContraseñas.addEventListener("submit", async (e) => {
+
+    if(formularioContraseñas){
+      formularioContraseñas.addEventListener("submit", async (e) => {
         e.preventDefault();
-        e.stopPropagation(); 
+    
       
         
       
@@ -246,4 +255,5 @@ if(formularioContraseñas){
       });
       
 
-}
+
+    }
